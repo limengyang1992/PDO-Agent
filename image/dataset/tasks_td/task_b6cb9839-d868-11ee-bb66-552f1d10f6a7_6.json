@@ -1,0 +1,49 @@
+{
+    "uuid": "b6cb9839-d868-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "Flowers102",
+        "regenerate": {
+            "type": "sample_sample",
+            "rate": 0.3,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "LA",
+    "model": "VGG",
+    "hyperparameter": {
+        "Epoch": 17,
+        "BS": 64,
+        "LR": 0.0001,
+        "LR decay": "MultiStep",
+        "optimize": "Adam"
+    },
+    "td": {
+        "loss_avg": 1.4578617733298231,
+        "loss_var": 0.050005440010859,
+        "loss_var_more2": 0.4,
+        "loss_var_less2": 0.3,
+        "loss_var_more3": 0.3,
+        "loss_var_less3": 0.2,
+        "grad_avg": 0.6308399875414625,
+        "grad_var": 0.05428108532822298,
+        "grad_var_more2": 0.4,
+        "grad_var_less2": 0.3,
+        "grad_var_more3": 0.3,
+        "grad_var_less3": 0.2,
+        "margin_avg": 0.031815925150864524,
+        "margin_var": 0.13028263276637947,
+        "margin_var_more2": 0.2,
+        "margin_var_less2": 0.3,
+        "margin_var_more3": 0.2,
+        "margin_var_less3": 0.3,
+        "possible_avg": 0.3691600124585375,
+        "possible_var": 0.05428108532822297,
+        "possible_var_more2": 0.3,
+        "possible_var_less2": 0.4,
+        "possible_var_more3": 0.2,
+        "possible_var_less3": 0.3,
+        "forget_avg": 0.7,
+        "forget_var": 0.20999999999999996
+    }
+}

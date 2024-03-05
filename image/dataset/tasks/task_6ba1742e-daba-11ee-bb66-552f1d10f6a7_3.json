@@ -1,0 +1,21 @@
+{
+    "uuid": "6ba1742e-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "Flowers102",
+        "regenerate": {
+            "type": "sample_sample",
+            "rate": 0.2,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "Focal",
+    "model": "Swin",
+    "hyperparameter": {
+        "Epoch": 80,
+        "BS": 1024,
+        "LR": 0.0001,
+        "LR decay": "Cosine",
+        "optimize": "Adam"
+    }
+}

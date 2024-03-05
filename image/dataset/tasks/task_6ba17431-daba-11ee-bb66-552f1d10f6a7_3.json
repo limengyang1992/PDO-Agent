@@ -1,0 +1,24 @@
+{
+    "uuid": "6ba17431-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "Caltech101",
+        "regenerate": {
+            "type": "noise_generate",
+            "sample": 1,
+            "sample_type": "sample",
+            "types": "Sym",
+            "rate": 0.3,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "Focal",
+    "model": "Swin",
+    "hyperparameter": {
+        "Epoch": 12,
+        "BS": 256,
+        "LR": 0.1,
+        "LR decay": "Cosine",
+        "optimize": "Adam"
+    }
+}

@@ -1,0 +1,50 @@
+{
+    "uuid": "b59e83d9-d868-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "OxfordIIIT Pet",
+        "regenerate": {
+            "type": "class_sample",
+            "rate": 0.7,
+            "class_min": 2,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "BS",
+    "model": "Vit",
+    "hyperparameter": {
+        "Epoch": 12,
+        "BS": 64,
+        "LR": 0.01,
+        "LR decay": "Warm-up",
+        "optimize": "Adam"
+    },
+    "td": {
+        "loss_avg": 1.7284083463118793,
+        "loss_var": 0.029674811977450605,
+        "loss_var_more2": 0.4,
+        "loss_var_less2": 0.2,
+        "loss_var_more3": 0.4,
+        "loss_var_less3": 0.2,
+        "grad_avg": 0.8808068817257346,
+        "grad_var": 0.022795506979884528,
+        "grad_var_more2": 0.4,
+        "grad_var_less2": 0.2,
+        "grad_var_more3": 0.4,
+        "grad_var_less3": 0.2,
+        "margin_avg": -0.5116913131678923,
+        "margin_var": 0.15638657554264684,
+        "margin_var_more2": 0.2,
+        "margin_var_less2": 0.4,
+        "margin_var_more3": 0.1,
+        "margin_var_less3": 0.0,
+        "possible_avg": 0.11919311827426542,
+        "possible_var": 0.022795506979884538,
+        "possible_var_more2": 0.2,
+        "possible_var_less2": 0.4,
+        "possible_var_more3": 0.2,
+        "possible_var_less3": 0.4,
+        "forget_avg": 0.7,
+        "forget_var": 0.21000000000000002
+    }
+}

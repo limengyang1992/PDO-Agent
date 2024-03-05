@@ -1,0 +1,52 @@
+{
+    "uuid": "b6cb97a5-d868-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "Clothing1M",
+        "regenerate": {
+            "type": "noise_generate",
+            "sample": 1,
+            "sample_type": "class",
+            "types": "Asym",
+            "rate": 0.4,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "LA",
+    "model": "Mobilenet",
+    "hyperparameter": {
+        "Epoch": 150,
+        "BS": 256,
+        "LR": 0.1,
+        "LR decay": "MultiStep",
+        "optimize": "Adam"
+    },
+    "td": {
+        "loss_avg": 1.4956087903985344,
+        "loss_var": 0.07362867424392386,
+        "loss_var_more2": 0.5,
+        "loss_var_less2": 0.2,
+        "loss_var_more3": 0.1,
+        "loss_var_less3": 0.2,
+        "grad_avg": 0.6598585880301223,
+        "grad_var": 0.0821699554698055,
+        "grad_var_more2": 0.5,
+        "grad_var_less2": 0.2,
+        "grad_var_more3": 0.1,
+        "grad_var_less3": 0.2,
+        "margin_avg": -0.08267167007877953,
+        "margin_var": 0.20921003377732442,
+        "margin_var_more2": 0.2,
+        "margin_var_less2": 0.1,
+        "margin_var_more3": 0.1,
+        "margin_var_less3": 0.0,
+        "possible_avg": 0.3401414119698776,
+        "possible_var": 0.08216995546980553,
+        "possible_var_more2": 0.2,
+        "possible_var_less2": 0.5,
+        "possible_var_more3": 0.2,
+        "possible_var_less3": 0.1,
+        "forget_avg": 0.8,
+        "forget_var": 0.16000000000000003
+    }
+}

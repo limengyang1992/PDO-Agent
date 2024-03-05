@@ -1,0 +1,22 @@
+{
+    "uuid": "6ba17427-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "SUN397",
+        "regenerate": {
+            "type": "class_sample",
+            "rate": 0.7,
+            "class_min": 2,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "LS",
+    "model": "Vit",
+    "hyperparameter": {
+        "Epoch": 180,
+        "BS": 512,
+        "LR": 0.0001,
+        "LR decay": "MultiStep",
+        "optimize": "Adam"
+    }
+}

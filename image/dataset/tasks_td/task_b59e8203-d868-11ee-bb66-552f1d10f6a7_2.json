@@ -1,0 +1,49 @@
+{
+    "uuid": "b59e8203-d868-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 32,
+        "dataset_name": "KMNIST",
+        "regenerate": {
+            "type": "sample_sample",
+            "rate": 0.5,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "LA",
+    "model": "ResNet",
+    "hyperparameter": {
+        "Epoch": 9,
+        "BS": 512,
+        "LR": 0.001,
+        "LR decay": "Warm-up",
+        "optimize": "Adam"
+    },
+    "td": {
+        "loss_avg": 1.5331980684239581,
+        "loss_var": 0.0353322454918695,
+        "loss_var_more2": 0.4,
+        "loss_var_less2": 0.2,
+        "loss_var_more3": 0.2,
+        "loss_var_less3": 0.2,
+        "grad_avg": 0.7053766655352377,
+        "grad_var": 0.03748459976472657,
+        "grad_var_more2": 0.4,
+        "grad_var_less2": 0.2,
+        "grad_var_more3": 0.2,
+        "grad_var_less3": 0.2,
+        "margin_avg": -0.1251681116963726,
+        "margin_var": 0.13271453575904849,
+        "margin_var_more2": 0.1,
+        "margin_var_less2": 0.1,
+        "margin_var_more3": 0.1,
+        "margin_var_less3": 0.1,
+        "possible_avg": 0.2946233344647623,
+        "possible_var": 0.03748459976472657,
+        "possible_var_more2": 0.2,
+        "possible_var_less2": 0.4,
+        "possible_var_more3": 0.2,
+        "possible_var_less3": 0.2,
+        "forget_avg": 0.8,
+        "forget_var": 0.16000000000000003
+    }
+}

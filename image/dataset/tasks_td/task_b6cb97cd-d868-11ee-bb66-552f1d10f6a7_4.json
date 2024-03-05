@@ -1,0 +1,52 @@
+{
+    "uuid": "b6cb97cd-d868-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "FGVCAircraft",
+        "regenerate": {
+            "type": "noise_generate",
+            "sample": 1,
+            "sample_type": "sample",
+            "types": "Asym",
+            "rate": 0.8,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "LA",
+    "model": "ResNet",
+    "hyperparameter": {
+        "Epoch": 7,
+        "BS": 512,
+        "LR": 0.0001,
+        "LR decay": "MultiStep",
+        "optimize": "AdamW"
+    },
+    "td": {
+        "loss_avg": 1.6740372845043716,
+        "loss_var": 0.07099778927575406,
+        "loss_var_more2": 0.4,
+        "loss_var_less2": 0.1,
+        "loss_var_more3": 0.0,
+        "loss_var_less3": 0.1,
+        "grad_avg": 0.8289471220873607,
+        "grad_var": 0.07658243479716283,
+        "grad_var_more2": 0.1,
+        "grad_var_less2": 0.1,
+        "grad_var_more3": 0.0,
+        "grad_var_less3": 0.1,
+        "margin_avg": -0.39003224383118307,
+        "margin_var": 0.2551285980198509,
+        "margin_var_more2": 0.1,
+        "margin_var_less2": 0.0,
+        "margin_var_more3": 0.1,
+        "margin_var_less3": 0.0,
+        "possible_avg": 0.17105287791263926,
+        "possible_var": 0.07658243479716281,
+        "possible_var_more2": 0.1,
+        "possible_var_less2": 0.1,
+        "possible_var_more3": 0.1,
+        "possible_var_less3": 0.0,
+        "forget_avg": 0.5,
+        "forget_var": 0.25
+    }
+}

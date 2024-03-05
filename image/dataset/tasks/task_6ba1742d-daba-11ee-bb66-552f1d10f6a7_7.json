@@ -1,0 +1,21 @@
+{
+    "uuid": "6ba1742d-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 32,
+        "dataset_name": "MNIST",
+        "regenerate": {
+            "type": "sample_sample",
+            "rate": 0.6,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "LS",
+    "model": "Swin",
+    "hyperparameter": {
+        "Epoch": 50,
+        "BS": 128,
+        "LR": 0.0001,
+        "LR decay": "MultiStep",
+        "optimize": "AdamW"
+    }
+}

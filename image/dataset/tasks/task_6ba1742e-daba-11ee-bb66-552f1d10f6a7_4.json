@@ -1,0 +1,21 @@
+{
+    "uuid": "6ba1742e-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "Flowers102",
+        "regenerate": {
+            "type": "sample_sample",
+            "rate": 0.2,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "LS",
+    "model": "Vit",
+    "hyperparameter": {
+        "Epoch": 80,
+        "BS": 128,
+        "LR": 0.01,
+        "LR decay": "Warm-up",
+        "optimize": "AdamW"
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "uuid": "6ba17438-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "Places-LT",
+        "regenerate": {
+            "type": "noise_generate",
+            "sample": 0,
+            "sample_type": "class",
+            "types": "Sym",
+            "rate": 0.7,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "LS",
+    "model": "Vit",
+    "hyperparameter": {
+        "Epoch": 120,
+        "BS": 128,
+        "LR": 0.1,
+        "LR decay": "Warm-up",
+        "optimize": "SGD"
+    }
+}

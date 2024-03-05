@@ -1,0 +1,23 @@
+{
+    "uuid": "6ba1742f-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 32,
+        "dataset_name": "MNIST",
+        "regenerate": {
+            "type": "long_tail_generate",
+            "sample": 1,
+            "sample_type": "sample",
+            "rate": 100,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "BS",
+    "model": "Vit",
+    "hyperparameter": {
+        "Epoch": 100,
+        "BS": 256,
+        "LR": 0.0001,
+        "LR decay": "MultiStep",
+        "optimize": "AdamW"
+    }
+}

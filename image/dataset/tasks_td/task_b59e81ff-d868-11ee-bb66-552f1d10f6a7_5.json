@@ -1,0 +1,52 @@
+{
+    "uuid": "b59e81ff-d868-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 32,
+        "dataset_name": "KMNIST",
+        "regenerate": {
+            "type": "noise_generate",
+            "sample": 1,
+            "sample_type": "class",
+            "types": "Sym",
+            "rate": 0.6,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "BS",
+    "model": "Mobilenet",
+    "hyperparameter": {
+        "Epoch": 200,
+        "BS": 32,
+        "LR": 0.001,
+        "LR decay": "Warm-up",
+        "optimize": "SGD"
+    },
+    "td": {
+        "loss_avg": 1.6422041429308734,
+        "loss_var": 0.03088844063268577,
+        "loss_var_more2": 0.4,
+        "loss_var_less2": 0.4,
+        "loss_var_more3": 0.3,
+        "loss_var_less3": 0.2,
+        "grad_avg": 0.8094923855085154,
+        "grad_var": 0.026601677167680766,
+        "grad_var_more2": 0.5,
+        "grad_var_less2": 0.4,
+        "grad_var_more3": 0.4,
+        "grad_var_less3": 0.2,
+        "margin_avg": -0.32284658723646875,
+        "margin_var": 0.11887460155388922,
+        "margin_var_more2": 0.3,
+        "margin_var_less2": 0.2,
+        "margin_var_more3": 0.2,
+        "margin_var_less3": 0.2,
+        "possible_avg": 0.19050761449148448,
+        "possible_var": 0.02660167716768077,
+        "possible_var_more2": 0.4,
+        "possible_var_less2": 0.5,
+        "possible_var_more3": 0.2,
+        "possible_var_less3": 0.4,
+        "forget_avg": 0.7,
+        "forget_var": 0.21000000000000002
+    }
+}

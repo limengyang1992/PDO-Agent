@@ -1,0 +1,21 @@
+{
+    "uuid": "6ba17434-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 32,
+        "dataset_name": "CIFAR100",
+        "regenerate": {
+            "type": "sample_sample",
+            "rate": 0.3,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "CE",
+    "model": "VGG",
+    "hyperparameter": {
+        "Epoch": 50,
+        "BS": 1024,
+        "LR": 0.0001,
+        "LR decay": "Cosine",
+        "optimize": "Adam"
+    }
+}

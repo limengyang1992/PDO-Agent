@@ -1,0 +1,51 @@
+{
+    "uuid": "b6cb9900-d868-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "Stanford Cars",
+        "regenerate": {
+            "type": "long_tail_generate",
+            "sample": 1,
+            "sample_type": "class",
+            "rate": 100,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "CE",
+    "model": "Vit",
+    "hyperparameter": {
+        "Epoch": 150,
+        "BS": 128,
+        "LR": 0.0001,
+        "LR decay": "MultiStep",
+        "optimize": "AdamW"
+    },
+    "td": {
+        "loss_avg": 1.5986112844997276,
+        "loss_var": 0.03362025272773952,
+        "loss_var_more2": 0.4,
+        "loss_var_less2": 0.3,
+        "loss_var_more3": 0.4,
+        "loss_var_less3": 0.3,
+        "grad_avg": 0.7706451831279235,
+        "grad_var": 0.030809772224513938,
+        "grad_var_more2": 0.4,
+        "grad_var_less2": 0.3,
+        "grad_var_more3": 0.4,
+        "grad_var_less3": 0.3,
+        "margin_avg": -0.23218382300983326,
+        "margin_var": 0.11773415450827504,
+        "margin_var_more2": 0.3,
+        "margin_var_less2": 0.3,
+        "margin_var_more3": 0.2,
+        "margin_var_less3": 0.1,
+        "possible_avg": 0.22935481687207648,
+        "possible_var": 0.030809772224513945,
+        "possible_var_more2": 0.3,
+        "possible_var_less2": 0.4,
+        "possible_var_more3": 0.3,
+        "possible_var_less3": 0.4,
+        "forget_avg": 0.6,
+        "forget_var": 0.24000000000000005
+    }
+}

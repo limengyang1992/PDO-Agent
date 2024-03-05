@@ -1,0 +1,23 @@
+{
+    "uuid": "6ba17430-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "Places-LT",
+        "regenerate": {
+            "type": "long_tail_generate",
+            "sample": 1,
+            "sample_type": "sample",
+            "rate": 200,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "Focal",
+    "model": "Vit",
+    "hyperparameter": {
+        "Epoch": 10,
+        "BS": 1024,
+        "LR": 0.001,
+        "LR decay": "Warm-up",
+        "optimize": "Adam"
+    }
+}

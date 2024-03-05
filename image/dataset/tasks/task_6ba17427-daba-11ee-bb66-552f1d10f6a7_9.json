@@ -1,0 +1,22 @@
+{
+    "uuid": "6ba17427-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "SUN397",
+        "regenerate": {
+            "type": "class_sample",
+            "rate": 0.7,
+            "class_min": 2,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "LA",
+    "model": "VGG",
+    "hyperparameter": {
+        "Epoch": 80,
+        "BS": 1024,
+        "LR": 0.0001,
+        "LR decay": "Warm-up",
+        "optimize": "SGD"
+    }
+}

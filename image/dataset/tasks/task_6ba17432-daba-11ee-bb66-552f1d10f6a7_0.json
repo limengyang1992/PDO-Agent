@@ -1,0 +1,21 @@
+{
+    "uuid": "6ba17432-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 32,
+        "dataset_name": "SVHN",
+        "regenerate": {
+            "type": "sample_sample",
+            "rate": 0.5,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "LA",
+    "model": "Vit",
+    "hyperparameter": {
+        "Epoch": 80,
+        "BS": 128,
+        "LR": 0.1,
+        "LR decay": "MultiStep",
+        "optimize": "SGD"
+    }
+}

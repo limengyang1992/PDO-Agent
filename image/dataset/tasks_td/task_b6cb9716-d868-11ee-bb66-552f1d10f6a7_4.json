@@ -1,0 +1,50 @@
+{
+    "uuid": "b6cb9716-d868-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 32,
+        "dataset_name": "CIFAR100",
+        "regenerate": {
+            "type": "class_sample",
+            "rate": 0.5,
+            "class_min": 2,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "LA",
+    "model": "VGG",
+    "hyperparameter": {
+        "Epoch": 200,
+        "BS": 512,
+        "LR": 0.001,
+        "LR decay": "MultiStep",
+        "optimize": "AdamW"
+    },
+    "td": {
+        "loss_avg": 1.528673865614651,
+        "loss_var": 0.04830011856441336,
+        "loss_var_more2": 0.3,
+        "loss_var_less2": 0.3,
+        "loss_var_more3": 0.3,
+        "loss_var_less3": 0.2,
+        "grad_avg": 0.6994618776727499,
+        "grad_var": 0.04962111637979443,
+        "grad_var_more2": 0.3,
+        "grad_var_less2": 0.3,
+        "grad_var_more3": 0.3,
+        "grad_var_less3": 0.2,
+        "margin_avg": -0.11064412655966634,
+        "margin_var": 0.15620644133747838,
+        "margin_var_more2": 0.2,
+        "margin_var_less2": 0.2,
+        "margin_var_more3": 0.2,
+        "margin_var_less3": 0.1,
+        "possible_avg": 0.30053812232725013,
+        "possible_var": 0.04962111637979444,
+        "possible_var_more2": 0.3,
+        "possible_var_less2": 0.3,
+        "possible_var_more3": 0.2,
+        "possible_var_less3": 0.3,
+        "forget_avg": 0.6,
+        "forget_var": 0.24
+    }
+}

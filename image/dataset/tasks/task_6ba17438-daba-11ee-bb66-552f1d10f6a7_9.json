@@ -1,0 +1,24 @@
+{
+    "uuid": "6ba17438-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "Places-LT",
+        "regenerate": {
+            "type": "noise_generate",
+            "sample": 0,
+            "sample_type": "class",
+            "types": "Sym",
+            "rate": 0.7,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "CE",
+    "model": "ResNet",
+    "hyperparameter": {
+        "Epoch": 200,
+        "BS": 32,
+        "LR": 0.1,
+        "LR decay": "Cosine",
+        "optimize": "Adam"
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "uuid": "6ba17427-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "SUN397",
+        "regenerate": {
+            "type": "class_sample",
+            "rate": 0.7,
+            "class_min": 2,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "Focal",
+    "model": "Swin",
+    "hyperparameter": {
+        "Epoch": 200,
+        "BS": 32,
+        "LR": 0.001,
+        "LR decay": "Cosine",
+        "optimize": "AdamW"
+    }
+}

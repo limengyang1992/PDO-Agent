@@ -1,0 +1,51 @@
+{
+    "uuid": "b7fc8c63-d868-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "ImageNet-LT",
+        "regenerate": {
+            "type": "long_tail_generate",
+            "sample": 1,
+            "sample_type": "sample",
+            "rate": 100,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "LS",
+    "model": "Swin",
+    "hyperparameter": {
+        "Epoch": 13,
+        "BS": 32,
+        "LR": 0.1,
+        "LR decay": "Warm-up",
+        "optimize": "Adam"
+    },
+    "td": {
+        "loss_avg": 1.7125146504268003,
+        "loss_var": 0.011192919020536412,
+        "loss_var_more2": 0.5,
+        "loss_var_less2": 0.4,
+        "loss_var_more3": 0.5,
+        "loss_var_less3": 0.4,
+        "grad_avg": 0.8813569586978188,
+        "grad_var": 0.01056580742865602,
+        "grad_var_more2": 0.5,
+        "grad_var_less2": 0.4,
+        "grad_var_more3": 0.5,
+        "grad_var_less3": 0.4,
+        "margin_avg": -0.42858432030146654,
+        "margin_var": 0.034978537640462264,
+        "margin_var_more2": 0.3,
+        "margin_var_less2": 0.3,
+        "margin_var_more3": 0.3,
+        "margin_var_less3": 0.3,
+        "possible_avg": 0.11864304130218124,
+        "possible_var": 0.01056580742865602,
+        "possible_var_more2": 0.4,
+        "possible_var_less2": 0.5,
+        "possible_var_more3": 0.4,
+        "possible_var_less3": 0.5,
+        "forget_avg": 0.3,
+        "forget_var": 0.21000000000000002
+    }
+}

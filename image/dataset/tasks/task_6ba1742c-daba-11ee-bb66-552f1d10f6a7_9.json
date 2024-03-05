@@ -1,0 +1,24 @@
+{
+    "uuid": "6ba1742c-daba-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "ImageNet-LT",
+        "regenerate": {
+            "type": "noise_generate",
+            "sample": 1,
+            "sample_type": "sample",
+            "types": "Sym",
+            "rate": 0.7,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "Focal",
+    "model": "Swin",
+    "hyperparameter": {
+        "Epoch": 18,
+        "BS": 256,
+        "LR": 0.001,
+        "LR decay": "MultiStep",
+        "optimize": "SGD"
+    }
+}

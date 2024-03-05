@@ -1,0 +1,49 @@
+{
+    "uuid": "b59e8223-d868-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 224,
+        "dataset_name": "EuroSAT",
+        "regenerate": {
+            "type": "sample_sample",
+            "rate": 0.6,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "Focal",
+    "model": "Swin",
+    "hyperparameter": {
+        "Epoch": 11,
+        "BS": 128,
+        "LR": 0.01,
+        "LR decay": "Warm-up",
+        "optimize": "SGD"
+    },
+    "td": {
+        "loss_avg": 1.6284248548093658,
+        "loss_var": 0.0634192254187998,
+        "loss_var_more2": 0.2,
+        "loss_var_less2": 0.1,
+        "loss_var_more3": 0.1,
+        "loss_var_less3": 0.1,
+        "grad_avg": 0.7879785969846432,
+        "grad_var": 0.06929065741106337,
+        "grad_var_more2": 0.2,
+        "grad_var_less2": 0.1,
+        "grad_var_more3": 0.0,
+        "grad_var_less3": 0.1,
+        "margin_avg": -0.308776835983811,
+        "margin_var": 0.21439964208852993,
+        "margin_var_more2": 0.1,
+        "margin_var_less2": 0.1,
+        "margin_var_more3": 0.1,
+        "margin_var_less3": 0.0,
+        "possible_avg": 0.21202140301535666,
+        "possible_var": 0.06929065741106337,
+        "possible_var_more2": 0.1,
+        "possible_var_less2": 0.2,
+        "possible_var_more3": 0.1,
+        "possible_var_less3": 0.0,
+        "forget_avg": 0.3,
+        "forget_var": 0.21000000000000002
+    }
+}

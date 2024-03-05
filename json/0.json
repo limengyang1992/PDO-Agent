@@ -1,0 +1,1 @@
+{"Base_Epoch": 150, "Base_Batch_Size": 64, "Base_Learning_Rate": 0.001, "Base_Dropout_Rate": 0.1, "Base_Momentum": 0.999, "Base_Weight_Decay": 0.1, "Optimizer": "AdaGrad", "Weight_Initialization": "Random", "Numerical_Precision": "Half Precision", "Loss_Function": "Logit Adjustment"}

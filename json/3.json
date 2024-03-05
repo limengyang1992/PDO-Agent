@@ -1,0 +1,1 @@
+{"Base_Epoch": 200, "Base_Batch_Size": 64, "Base_Learning_Rate": 0.0001, "Base_Dropout_Rate": 0.3, "Base_Momentum": 0.99, "Base_Weight_Decay": 0.001, "Optimizer": "RMSprop", "Weight_Initialization": "Kaiming", "Numerical_Precision": "Double Precision", "Loss_Function": "Label Smoothing"}

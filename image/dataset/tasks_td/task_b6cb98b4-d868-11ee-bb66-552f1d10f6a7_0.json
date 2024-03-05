@@ -1,0 +1,51 @@
+{
+    "uuid": "b6cb98b4-d868-11ee-bb66-552f1d10f6a7",
+    "dataset": {
+        "reslution": 32,
+        "dataset_name": "MNIST",
+        "regenerate": {
+            "type": "long_tail_generate",
+            "sample": 1,
+            "sample_type": "class",
+            "rate": 200,
+            "sample_min": 2000
+        }
+    },
+    "loss fuction": "BS",
+    "model": "VGG",
+    "hyperparameter": {
+        "Epoch": 200,
+        "BS": 512,
+        "LR": 0.1,
+        "LR decay": "Cosine",
+        "optimize": "SGD"
+    },
+    "td": {
+        "loss_avg": 1.636637827499318,
+        "loss_var": 0.028079683498134216,
+        "loss_var_more2": 0.4,
+        "loss_var_less2": 0.4,
+        "loss_var_more3": 0.4,
+        "loss_var_less3": 0.4,
+        "grad_avg": 0.8133081085725795,
+        "grad_var": 0.025877487636798212,
+        "grad_var_more2": 0.4,
+        "grad_var_less2": 0.4,
+        "grad_var_more3": 0.4,
+        "grad_var_less3": 0.4,
+        "margin_avg": -0.23087427754144452,
+        "margin_var": 0.08073207555605659,
+        "margin_var_more2": 0.4,
+        "margin_var_less2": 0.3,
+        "margin_var_more3": 0.2,
+        "margin_var_less3": 0.2,
+        "possible_avg": 0.18669189142742051,
+        "possible_var": 0.025877487636798212,
+        "possible_var_more2": 0.4,
+        "possible_var_less2": 0.4,
+        "possible_var_more3": 0.4,
+        "possible_var_less3": 0.4,
+        "forget_avg": 0.4,
+        "forget_var": 0.24000000000000005
+    }
+}
