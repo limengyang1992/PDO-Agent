@@ -9,10 +9,23 @@ from nets import get_model_from_name
 from utils.dataloader import load_config
 from utils.losses import *
 from utils.utils_fit import *
+from mysql_tool import MySQLJSONStorage
+
+import argparse
+parser = argparse.ArgumentParser(description='PyTorch Training')
+parser.add_argument('--root_dir', default="/home/mengyang/dataset/", type=str, help='config file path')
+parser.add_argument('--sub_dataset_dir', default="images_dataset", type=str, help='sub_dataset_dir')
+parser.add_argument('--sub_model_dir', default="images_model", type=str, help='sub_model_dir')
+parser.add_argument('--sub_output_dir', default="images_td", type=str, help='sub_output_dir')
+args = parser.parse_args()
+
+database = MySQLJSONStorage()
 
 
-def task_app(config, base_dataset_dir, bath_model_dir, output_dir):
+def app(config, base_dataset_dir, bath_model_dir, output_dir):
+    
     # 1. 加载配置文件
+    config = json.loads(config)
     uuids = config["uuid"]
     # 2. 加载数据集
     train_loader, td_loader, test_loader, target_map, cls_num_list = load_config(config, base_dataset_dir)
@@ -141,36 +154,38 @@ def task_app(config, base_dataset_dir, bath_model_dir, output_dir):
 
 
 if __name__ == "__main__":
-    import glob
-    import numpy as np
-    import argparse
-    parser = argparse.ArgumentParser(description='PyTorch Training')
-    parser.add_argument('--config_path', default="config/configs_32/*.json", type=str, help='config file path')
-    parser.add_argument('--base_dataset_dir', default="/home/mengyang/dataset/images/", type=str, help='base dataset dir')
-    parser.add_argument('--bath_model_dir', default="/home/mengyang/dataset/images_model/", type=str, help='bath model dir')
-    parser.add_argument('--output_dir', default="/home/mengyang/dataset/images_td/", type=str, help='output dir')
-    args = parser.parse_args()
-    config_path = args.config_path
-    base_dataset_dir = args.base_dataset_dir
-    bath_model_dir = args.bath_model_dir
-    output_dir = args.output_dir
 
-    configs = glob.glob(config_path)
+    root_dir = args.root_dir
+    dataset_dir = os.path.join(root_dir, args.sub_dataset_dir)
+    model_dir = os.path.join(root_dir, args.sub_model_dir)
+    output_dir = os.path.join(root_dir, args.sub_output_dir)
 
-    # 随机抽取50个配置文件
-    for config in np.random.choice(configs, 50):
-        print(config)
-        with open(config, 'r') as f:
-            config = json.load(f)
-        print(config)
-        task_app(config, base_dataset_dir, bath_model_dir, output_dir)    
+    # result = database.get_pending_json_file()
+    # config = result["json_data"]
+    # print(config)
+    # app(config, dataset_dir, model_dir, output_dir)
 
-    # # debug
-    # path = "task_28083cf5-e593-11ee-ab5e-b4055d1d7a2d_config9.json"
-    # with open(path, 'r') as f:
-    #     config = json.load(f)
-    # # config["hyperparameter"]["optimize"] = "Adam"
-    # config["model"]["backbone"] = "resnet50"
-    # # config["hyperparameter"]["lr"] = 0.001
-    # # config["hyperparameter"]["lr_decay"] = "CosineAnnealingLR"
-    # main(config, base_dataset_dir, bath_model_dir, output_dir="./")
+    while 1:
+        time.sleep(2)
+        print("===============starting next task==========")
+        # 1. 获取status=0的json文件
+        result = database.get_pending_json_file()
+        name = result["name"]
+        database.update_status(name, status=1)
+        
+        if result is None:
+            print("No pending json file")
+            break
+        print(result)
+        # 2. 获取config
+        config = result["json_data"]
+        # 3. 训练模型并更新状态
+        try:
+            app(config, dataset_dir, model_dir, output_dir)
+            database.update_status(name, status=2)
+        except Exception as e:
+            print(e)
+            database.update_status(name, status=4)
+
+
+
