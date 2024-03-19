@@ -5,6 +5,7 @@ import uuid
 import os
 import uuid
 
+
 data_list_32 = ["CIFAR10", "CIFAR100", "SVHN", "STL10","EuroSAT"]
 model_list_32 = ["resnet20","resnet32", "resnet56","wrn16_32","wrn28_10","vgg11_32","vgg16_32"]
 data_list_224 = [ "FGVCAircraft","OxfordIIITPet","Caltech101", "Flowers102", "StanfordCars", "Clothing1M", "Country211"]
