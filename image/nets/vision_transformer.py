@@ -219,8 +219,9 @@ class VisionTransformer(nn.Module):
     
 def vit_b_16(input_shape=[224, 224], pretrained=False, num_classes=1000):
     model = VisionTransformer(input_shape)
-    if pretrained:
-        model.load_state_dict(torch.load("model_data/vit-patch_16.pth"))
+    if str(pretrained)!="0":
+        print("Loading pretrained weights")
+        model.load_state_dict(torch.load(pretrained))
 
     if num_classes!=1000:
         model.head = nn.Linear(model.num_features, num_classes)

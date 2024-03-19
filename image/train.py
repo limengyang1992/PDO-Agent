@@ -1,133 +1,175 @@
 import os
-
-import numpy as np
-import torch
-import torch.backends.cudnn as cudnn
-import torch.distributed as dist
-import torch.nn as nn
+import time
+import json
+from thop import profile
 import torch.optim as optim
-from torch.utils.data import DataLoader
+from torch.cuda.amp import GradScaler
 
 from nets import get_model_from_name
-from utils.callbacks import LossHistory
-from utils.dataloader import DataGenerator, detection_collate
-from utils.utils import (download_weights, get_classes, get_lr_scheduler,
-                         set_optimizer_lr, show_config, weights_init)
-from utils.utils_fit import fit_one_epoch
+from utils.dataloader import load_config
+from utils.losses import *
+from utils.utils_fit import *
 
-# if __name__ == "__main__":
 
-    # if pretrained:
-    #     download_weights(backbone)
-    # else:
-    #     weights_init(model)
-            
+def main(config, base_dataset_dir, bath_model_dir, output_dir):
+    # 1. 加载配置文件
+    uuids = config["uuid"]
+    # 2. 加载数据集
+    train_loader, td_loader, test_loader, target_map, cls_num_list = load_config(config, base_dataset_dir)
 
-    # if backbone not in ['vit_b_16', 'swin_transformer_tiny', 'swin_transformer_small', 'swin_transformer_base']:
-    #     model = get_model_from_name[backbone](num_classes = num_classes, pretrained = pretrained)
-    # else:
-    #     model = get_model_from_name[backbone](input_shape = input_shape, num_classes = num_classes, pretrained = pretrained)
-
-        
+    # 3. 加载模型
+    backbone = config["model"]["backbone"]
+    num_classes = len(target_map)
+    if backbone == "vit_b_16": bath_model_dir = os.path.join(bath_model_dir, "vit.pth")
+    if backbone == "swin_transformer_tiny": bath_model_dir = os.path.join(bath_model_dir, "swin.pth")
+    pretrained = bath_model_dir if config["model"]["pretrained"]==1 else 0
+    model = get_model_from_name[backbone](num_classes = num_classes, pretrained = pretrained)
+    model = model.cuda()
+    # 4. 加载损失函数
+    loss_fuction = config["model"]["loss_fuction"]
+    criterion = {
+            'CrossEntropy'  : CrossEntropyLoss(),
+            'LabelSmooth'  : LabelSmoothingLoss(),
+            'Bootstrap'  : SoftBootstrappingLoss(),
+            'FocalLoss' : FocalLoss(),
+            'LogitAdj' : LogitAdjustmentLoss(cls_num_list),
+        }[loss_fuction]
     
-    # if fp16:
-    #     from torch.cuda.amp import GradScaler as GradScaler
-    #     scaler = GradScaler()
-    # else:
-    #     scaler = None
-
-    # model_train     = model.train()
-
-
-        
-    # optimizer = {
-    #     'adam'  : optim.Adam(model_train.parameters(), Init_lr_fit, betas = (momentum, 0.999), weight_decay=weight_decay),
-    #     'sgd'   : optim.SGD(model_train.parameters(), Init_lr_fit, momentum = momentum, nesterov=True)
-    # }[optimizer_type]
+    # 5. 优化器
+    optimizer_type = config["hyperparameter"]["optimize"]
+    Init_lr_fit = config["hyperparameter"]["lr"]
     
-    # #---------------------------------------#
-    # #   获得学习率下降的公式
-    # #---------------------------------------#
-    # lr_scheduler_func = get_lr_scheduler(lr_decay_type, Init_lr_fit, Min_lr_fit, UnFreeze_Epoch)
+    momentum = 0.9
+    weight_decay = 5e-4
+    optimizer = {
+        'Adam'  : optim.Adam(model.parameters(), Init_lr_fit, betas = (momentum, 0.999), weight_decay=weight_decay),
+        'SGD'   : optim.SGD(model.parameters(), Init_lr_fit, momentum = momentum, nesterov=True, weight_decay=weight_decay),
+        'RMSprop' : optim.RMSprop(model.parameters(), Init_lr_fit, momentum = momentum, weight_decay=weight_decay),
+        'AdamW' : optim.AdamW(model.parameters(), Init_lr_fit, betas = (momentum, 0.999), weight_decay=weight_decay),
+        'Adadelta' : optim.Adadelta(model.parameters(), Init_lr_fit, weight_decay=weight_decay),
+    }[optimizer_type]
+
+    print(optimizer)
+    # 6 学习率调整
+    lr_decay_type = config["hyperparameter"]["lr_decay"]
+    epoch = config["hyperparameter"]["epoch"]
+
+    if lr_decay_type == "StepLR":
+        scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=0.3*epoch, gamma=0.1)
+    elif lr_decay_type == "ExponentialLR":
+        scheduler = optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.95)
+    elif lr_decay_type == "MultiStepLR":
+        scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[int(0.6*epoch),int(0.8*epoch)], gamma=0.1)
+    elif lr_decay_type == "CosineAnnealingLR":
+        scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=int(0.5*epoch), eta_min=0.0001)
+    else:
+        raise ValueError("Invalid lr_decay_type")
     
-    
-    
-    
-    # train_dataset   = DataGenerator(train_lines, input_shape, True)
-    # val_dataset     = DataGenerator(val_lines, input_shape, False)
-    
 
-        
-    # gen_train       = DataLoader(train_dataset, shuffle=shuffle, batch_size=batch_size, num_workers=num_workers, pin_memory=True, 
-    #                         drop_last=True, collate_fn=detection_collate, sampler=train_sampler)
-    # gen_val         = DataLoader(val_dataset, shuffle=shuffle, batch_size=batch_size, num_workers=num_workers, pin_memory=True,
-    #                         drop_last=True, collate_fn=detection_collate, sampler=val_sampler)
-    # #---------------------------------------#
-    # #   开始模型训练
-    # #---------------------------------------#
-    # for epoch in range(Epoch):
-    #     #---------------------------------------#
-    #     #   如果模型有冻结学习部分
-    #     #   则解冻，并设置参数
-    #     #---------------------------------------#
-    #     if epoch >= Freeze_Epoch and not UnFreeze_flag and Freeze_Train:
-    #         batch_size = Unfreeze_batch_size
+    # 6. 训练模型
+    best_acc = 0
+    train_acc = 0
+    td_task_dict = {} 
+    td_calss_dict = {}
+    scalar = GradScaler()
 
-    #         #-------------------------------------------------------------------#
-    #         #   判断当前batch_size，自适应调整学习率
-    #         #-------------------------------------------------------------------#
-    #         nbs             = 64
-    #         lr_limit_max    = 1e-3 if optimizer_type == 'adam' else 1e-1
-    #         lr_limit_min    = 1e-4 if optimizer_type == 'adam' else 5e-4
-    #         if backbone in ['vit_b_16', 'swin_transformer_tiny', 'swin_transformer_small', 'swin_transformer_base']:
-    #             nbs             = 256
-    #             lr_limit_max    = 1e-3 if optimizer_type == 'adam' else 1e-1
-    #             lr_limit_min    = 1e-5 if optimizer_type == 'adam' else 5e-4
-    #         Init_lr_fit     = min(max(batch_size / nbs * Init_lr, lr_limit_min), lr_limit_max)
-    #         Min_lr_fit      = min(max(batch_size / nbs * Min_lr, lr_limit_min * 1e-2), lr_limit_max * 1e-2)
-    #         #---------------------------------------#
-    #         #   获得学习率下降的公式
-    #         #---------------------------------------#
-    #         lr_scheduler_func = get_lr_scheduler(lr_decay_type, Init_lr_fit, Min_lr_fit, UnFreeze_Epoch)
-            
-    #         model.Unfreeze_backbone()
+    # 合并训练状态
+    config.update({"train_status":"success"})
+    config.update({"train_info":"train success"})
+    try:
+        for ep in range(epoch):
+            start = time.time()
+            train_loss,train_acc,lr = fit_one_epoch(model, optimizer, criterion, scalar, train_loader)
+            # nan or inf
+            if str(train_loss) == "nan":
+                config.update({"train_status":"fail"})
+                config.update({"train_info":"train loss is nan"})
+                break
+            print("Epoch: %d, Train Loss: %.4f, Train Acc: %.4f, Learning Rate: %.4f,Cost time: %.2f" % (ep, train_loss, train_acc, lr, time.time()-start))
+            result_task_json,result_class_json = td_one_epoch(model,criterion, optimizer, td_loader)
+            val_loss,val_acc = val_one_epoch(model, test_loader)
+            print("Epoch: %d, Test Loss: %.4f, Test Acc: %.4f" % (ep, val_loss, val_acc))
+            result_task_json.update({"train_acc":train_acc, "val_acc":val_acc})
+            result_class_json.update({"train_acc":train_acc, "val_acc":val_acc})
+            td_task_dict[f"e_{ep}"] = result_task_json
+            td_calss_dict[f"e_{ep}"] = result_class_json
+            scheduler.step()
+            if val_acc > best_acc:
+                best_acc = val_acc
 
-    #         epoch_step      = num_train // batch_size
-    #         epoch_step_val  = num_val // batch_size
+    except Exception as e:
+        # 合并训练状态
+        config.update({"train_status":"error"})
+        config.update({"train_info":str(e)})
 
-    #         if epoch_step == 0 or epoch_step_val == 0:
-    #             raise ValueError("数据集过小，无法继续进行训练，请扩充数据集。")
+    # 7. 计算模型的flops和参数量
+    if config["dataset"]["reslution"] == 32:
+        input_shape = [32, 32]
+    else:
+        input_shape = [224, 224]
+    device  = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    dummy_input     = torch.randn(1, 3, input_shape[0], input_shape[1]).to(device)
+    flops, params   = profile(model.to(device), (dummy_input, ), verbose=False)
+    print("FLOPs: %.2fM, Params: %.2fM" % (flops/1e6, params/1e6))
 
-    #         if distributed:
-    #             batch_size = batch_size // ngpus_per_node
-
-    #         gen             = DataLoader(train_dataset, shuffle=shuffle, batch_size=batch_size, num_workers=num_workers, pin_memory=True,
-    #                                 drop_last=True, collate_fn=detection_collate, sampler=train_sampler)
-    #         gen_val         = DataLoader(val_dataset, shuffle=shuffle, batch_size=batch_size, num_workers=num_workers, pin_memory=True,
-    #                                 drop_last=True, collate_fn=detection_collate, sampler=val_sampler)
-
-    #         UnFreeze_flag = True
-
-    #     if distributed:
-    #         train_sampler.set_epoch(epoch)
-            
-    #     set_optimizer_lr(optimizer, lr_scheduler_func, epoch)
-        
-    #     fit_one_epoch(model_train, model, loss_history, optimizer, epoch, epoch_step, epoch_step_val, gen, gen_val, UnFreeze_Epoch, Cuda, fp16, scaler, save_period, save_dir, local_rank)
-
-    # if local_rank == 0:
-    #     loss_history.writer.close()
+    # 8. 保存TD和测试集的结果
+    # 合并训练集、td和测试集个数
+    config.update({"train_num":len(train_loader.dataset),"td_num":len(td_loader.dataset), "val_num":len(test_loader.dataset)})
+    # 合并num_list
+    config.update({"cls_num_list":cls_num_list})
+    # 合并config和flops和params
+    config.update({"flops":flops/1e6, "params":params/1e6})
+    # 合并best_acc
+    config.update({"best_acc":best_acc})
 
 
-# 加载配置文件，进行训练
-import json
-# 1. 加载配置文件  dataset/tasks/task_b6cb9a00-d868-11ee-bb66-552f1d10f6a7_0.json
-with open('dataset/tasks/task_b6cb9a00-d868-11ee-bb66-552f1d10f6a7_0.json', 'r') as f:
-    data = json.load(f)
-    print(data)
+    # 保存config,名字在config_path加上后缀TD
+    config_class = config.copy()
+    config_class.update({"training_dynamic_class":td_calss_dict})
+    config_task = config.copy()
+    config_task.update({"training_dynamic_task":td_task_dict})
+
+
+    output_class_path = os.path.join(output_dir, f"{uuids}_TD_class.json")
+    with open(output_class_path, 'w') as f:
+        json.dump(config_class, f, indent=4)
+
+    output_task_path = os.path.join(output_dir, f"{uuids}_TD_task.json")
+    with open(output_task_path, 'w') as f:
+        json.dump(config_task, f, indent=4)
 
 
 
+if __name__ == "__main__":
+    import glob
+    import numpy as np
+    import argparse
+    parser = argparse.ArgumentParser(description='PyTorch Training')
+    parser.add_argument('--config_path', default="config/configs_32/*.json", type=str, help='config file path')
+    parser.add_argument('--base_dataset_dir', default="/home/mengyang/dataset/images/", type=str, help='base dataset dir')
+    parser.add_argument('--bath_model_dir', default="/home/mengyang/dataset/images_model/", type=str, help='bath model dir')
+    parser.add_argument('--output_dir', default="/home/mengyang/dataset/images_td/", type=str, help='output dir')
+    args = parser.parse_args()
+    config_path = args.config_path
+    base_dataset_dir = args.base_dataset_dir
+    bath_model_dir = args.bath_model_dir
+    output_dir = args.output_dir
 
-# 2. 读取配置文件中的参数
-# 3. 训练模型
+    configs = glob.glob(config_path)
+
+    # 随机抽取50个配置文件
+    # for config in np.random.choice(configs, 50):
+    #     print(config)
+    #     with open(config, 'r') as f:
+    #         config = json.load(f)
+    #     main(config, base_dataset_dir, bath_model_dir, output_dir)    
+
+
+    path = "task_28083cf5-e593-11ee-ab5e-b4055d1d7a2d_config9.json"
+    with open(path, 'r') as f:
+        config = json.load(f)
+    # config["hyperparameter"]["optimize"] = "Adam"
+    config["model"]["backbone"] = "resnet50"
+    # config["hyperparameter"]["lr"] = 0.001
+    # config["hyperparameter"]["lr_decay"] = "CosineAnnealingLR"
+    main(config, base_dataset_dir, bath_model_dir, output_dir="./")

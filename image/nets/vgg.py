@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from torch.hub import load_state_dict_from_url
+import os
 
 model_urls = {
     'vgg11': 'https://download.pytorch.org/models/vgg11-bbd30ac9.pth',
@@ -83,8 +84,9 @@ cfgs = {
 
 def vgg11(pretrained=False, progress=True, num_classes=1000):
     model = VGG(make_layers(cfgs['A']))
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['vgg11'], model_dir='./model_data',
+    if str(pretrained)!="0":
+        print("Loading pretrained weights")
+        state_dict = load_state_dict_from_url(model_urls['vgg11'], model_dir=pretrained,
                                               progress=progress)
         model.load_state_dict(state_dict,strict=False)
 
@@ -102,8 +104,9 @@ def vgg11(pretrained=False, progress=True, num_classes=1000):
 
 def vgg13(pretrained=False, progress=True, num_classes=1000):
     model = VGG(make_layers(cfgs['B']))
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['vgg13'], model_dir='./model_data',
+    if str(pretrained)!="0":
+        print("Loading pretrained weights")
+        state_dict = load_state_dict_from_url(model_urls['vgg13'], model_dir=pretrained,
                                               progress=progress)
         model.load_state_dict(state_dict,strict=False)
 
@@ -121,8 +124,9 @@ def vgg13(pretrained=False, progress=True, num_classes=1000):
 
 def vgg16(pretrained=False, progress=True, num_classes=1000):
     model = VGG(make_layers(cfgs['D']))
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['vgg16'], model_dir='./model_data',
+    if str(pretrained)!="0":
+        print("Loading pretrained weights")
+        state_dict = load_state_dict_from_url(model_urls['vgg16'], model_dir=pretrained,
                                               progress=progress)
         model.load_state_dict(state_dict,strict=False)
 
@@ -140,8 +144,8 @@ def vgg16(pretrained=False, progress=True, num_classes=1000):
 
 def vgg11_bn(pretrained=False, progress=True, num_classes=1000):
     model = VGG(make_layers(cfgs['A'], True))
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['vgg11_bn'], model_dir='./model_data',
+    if str(pretrained)!="0":
+        state_dict = load_state_dict_from_url(model_urls['vgg11_bn'], model_dir=pretrained,
                                               progress=progress)
         model.load_state_dict(state_dict, strict=False)
 
@@ -159,8 +163,9 @@ def vgg11_bn(pretrained=False, progress=True, num_classes=1000):
 
 def vgg13_bn(pretrained=False, progress=True, num_classes=1000):
     model = VGG(make_layers(cfgs['B'], True))
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['vgg13_bn'], model_dir='./model_data',
+    if str(pretrained)!="0":
+        print("Loading pretrained weights")
+        state_dict = load_state_dict_from_url(model_urls['vgg13_bn'], model_dir=pretrained,
                                               progress=progress)
         model.load_state_dict(state_dict, strict=False)
 
@@ -178,8 +183,9 @@ def vgg13_bn(pretrained=False, progress=True, num_classes=1000):
 
 def vgg16_bn(pretrained=False, progress=True, num_classes=1000):
     model = VGG(make_layers(cfgs['D'], True))
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['vgg16_bn'], model_dir='./model_data',
+    if str(pretrained)!="0":
+        print("Loading pretrained weights")
+        state_dict = load_state_dict_from_url(model_urls['vgg16_bn'], model_dir=pretrained,
                                               progress=progress)
         model.load_state_dict(state_dict, strict=False)
 

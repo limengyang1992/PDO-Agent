@@ -1,1 +1,0 @@
-{"Base_Epoch": 150, "Base_Batch_Size": 256, "Base_Learning_Rate": 0.01, "Base_Dropout_Rate": 0.1, "Base_Momentum": 0.9, "Base_Weight_Decay": 0.0001, "Optimizer": "Adam", "Weight_Initialization": "Pretrain", "Numerical_Precision": "Single Precision", "Loss_Function": "Focal Loss"}

@@ -688,8 +688,9 @@ class SwinTransformer(nn.Module):
 
 def swin_transformer_tiny(input_shape=[224, 224], pretrained=False, num_classes=1000):
     model = SwinTransformer(input_shape, depths=[2, 2, 6, 2], num_heads=[3, 6, 12, 24], embed_dim=96, drop_path_rate=0.2)
-    if pretrained:
-        model.load_state_dict(torch.load("model_data/swin_tiny_patch4_window7_224_imagenet1k.pth"))
+    if str(pretrained)!="0":
+        print("Loading pretrained weights")
+        model.load_state_dict(torch.load(pretrained))
 
     if num_classes!=1000:
         model.head = nn.Linear(model.num_features, num_classes)
@@ -698,8 +699,8 @@ def swin_transformer_tiny(input_shape=[224, 224], pretrained=False, num_classes=
 
 def swin_transformer_small(input_shape=[224, 224], pretrained=False, num_classes=1000):
     model = SwinTransformer(input_shape, depths=[2, 2, 18, 2], num_heads=[3, 6, 12, 24], embed_dim=96, drop_path_rate=0.3)
-    if pretrained:
-        model.load_state_dict(torch.load("model_data/swin_small_patch4_window7_224_imagenet1k.pth"))
+    if str(pretrained)!="0":
+        model.load_state_dict(torch.load(pretrained))
 
     if num_classes!=1000:
         model.head = nn.Linear(model.num_features, num_classes)
@@ -708,8 +709,8 @@ def swin_transformer_small(input_shape=[224, 224], pretrained=False, num_classes
 
 def swin_transformer_base(input_shape=[224, 224], pretrained=False, num_classes=1000):
     model = SwinTransformer(input_shape, depths=[2, 2, 18, 2], num_heads=[4, 8, 16, 32], embed_dim=128, drop_path_rate=0.5)
-    if pretrained:
-        model.load_state_dict(torch.load("model_data/swin_base_patch4_window7_224_imagenet1k.pth"))
+    if str(pretrained)!="0":
+        model.load_state_dict(torch.load(pretrained))
 
     if num_classes!=1000:
         model.head = nn.Linear(model.num_features, num_classes)

@@ -226,8 +226,9 @@ class ResNet(nn.Module):
 
 def resnet18(pretrained=False, progress=True, num_classes=1000):
     model = ResNet(BasicBlock, [2, 2, 2, 2])
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['resnet18'], model_dir='./model_data',
+    if str(pretrained)!="0":
+        print("Loading pretrained weights")
+        state_dict = load_state_dict_from_url(model_urls['resnet18'], model_dir=pretrained,
                                               progress=progress)
         model.load_state_dict(state_dict)
 
@@ -237,8 +238,9 @@ def resnet18(pretrained=False, progress=True, num_classes=1000):
 
 def resnet34(pretrained=False, progress=True, num_classes=1000):
     model = ResNet(BasicBlock, [3, 4, 6, 3])
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['resnet34'], model_dir='./model_data',
+    if str(pretrained)!="0":
+        print("Loading pretrained weights")
+        state_dict = load_state_dict_from_url(model_urls['resnet34'], model_dir=pretrained,
                                               progress=progress)
         model.load_state_dict(state_dict)
 
@@ -248,8 +250,9 @@ def resnet34(pretrained=False, progress=True, num_classes=1000):
 
 def resnet50(pretrained=False, progress=True, num_classes=1000):
     model = ResNet(Bottleneck, [3, 4, 6, 3])
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['resnet50'], model_dir='./model_data',
+    if str(pretrained)!="0":
+        print("Loading pretrained weights")
+        state_dict = load_state_dict_from_url(model_urls['resnet50'], model_dir=pretrained,
                                               progress=progress)
         model.load_state_dict(state_dict)
 
@@ -259,8 +262,9 @@ def resnet50(pretrained=False, progress=True, num_classes=1000):
 
 def resnet101(pretrained=False, progress=True, num_classes=1000):
     model = ResNet(Bottleneck, [3, 4, 23, 3])
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['resnet101'], model_dir='./model_data',
+    if str(pretrained)!="0":
+        print("Loading pretrained weights")
+        state_dict = load_state_dict_from_url(model_urls['resnet101'], model_dir=pretrained,
                                               progress=progress)
         model.load_state_dict(state_dict)
 
@@ -270,8 +274,9 @@ def resnet101(pretrained=False, progress=True, num_classes=1000):
 
 def resnet152(pretrained=False, progress=True, num_classes=1000):
     model = ResNet(Bottleneck, [3, 8, 36, 3])
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls['resnet152'], model_dir='./model_data',
+    if str(pretrained)!="0":
+        print("Loading pretrained weights")
+        state_dict = load_state_dict_from_url(model_urls['resnet152'], model_dir=pretrained,
                                               progress=progress)
         model.load_state_dict(state_dict)
 

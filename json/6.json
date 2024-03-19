@@ -1,1 +1,0 @@
-{"Base_Epoch": 100, "Base_Batch_Size": 64, "Base_Learning_Rate": 0.01, "Base_Dropout_Rate": 0.5, "Base_Momentum": 0.999, "Base_Weight_Decay": 0.001, "Optimizer": "AdaGrad", "Weight_Initialization": "Kaiming", "Numerical_Precision": "Single Precision", "Loss_Function": "Focal Loss"}
