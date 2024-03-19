@@ -17,6 +17,7 @@ parser.add_argument('--root_dir', default="/home/mengyang/dataset/", type=str, h
 parser.add_argument('--sub_dataset_dir', default="images_dataset", type=str, help='sub_dataset_dir')
 parser.add_argument('--sub_model_dir', default="images_model", type=str, help='sub_model_dir')
 parser.add_argument('--sub_output_dir', default="images_td", type=str, help='sub_output_dir')
+parser.add_argument('--flag', default=0, type=int, help='config file path')
 args = parser.parse_args()
 
 database = MySQLJSONStorage()
@@ -160,12 +161,13 @@ if __name__ == "__main__":
     model_dir = os.path.join(root_dir, args.sub_model_dir)
     output_dir = os.path.join(root_dir, args.sub_output_dir)
 
-    # result = database.get_pending_json_file()
-    # config = result["json_data"]
-    # print(config)
-    # app(config, dataset_dir, model_dir, output_dir)
+    if args.flag==0:
+        result = database.get_pending_json_file()
+        config = result["json_data"]
+        print(config)
+        app(config, dataset_dir, model_dir, output_dir)
 
-    while 1:
+    while args.flag:
         time.sleep(2)
         print("===============starting next task==========")
         # 1. 获取status=0的json文件
