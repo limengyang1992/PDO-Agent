@@ -8,7 +8,7 @@ import glob
 
 
 def send_task(queue, task_dir):
-    connection = pika.BlockingConnection(pika.ConnectionParameters('39.99.241.32', 5672, '/', pika.PlainCredentials('lmy', '1895'), heartbeat=0))
+    connection = pika.BlockingConnection(pika.ConnectionParameters('39.99.241.32', 5672, '/', pika.PlainCredentials('lmy', '***'), heartbeat=0))
     channel = connection.channel()
     channel.queue_declare(queue=queue, durable=True)
     # get message

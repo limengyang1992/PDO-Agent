@@ -72,7 +72,7 @@ def on_message(channel, method_frame, header_frame, body):
 
 
 
-connection = pika.BlockingConnection(pika.ConnectionParameters('39.99.241.32', 5672, '/', pika.PlainCredentials('lmy', '1895'), heartbeat=0))
+connection = pika.BlockingConnection(pika.ConnectionParameters('39.99.241.32', 5672, '/', pika.PlainCredentials('lmy', '***'), heartbeat=0))
 channel = connection.channel()
 channel.queue_declare(queue=args.queue, durable=True)
 channel.basic_qos(prefetch_count=1)
